@@ -14,6 +14,8 @@ use webrtc::peer_connection::configuration::RTCConfiguration;
 use webrtc::peer_connection::peer_connection_state::RTCPeerConnectionState;
 use webrtc::peer_connection::RTCPeerConnection;
 
+use chrono::Utc;
+
 const BUFFERED_AMOUNT_LOW_THRESHOLD: usize = 512 * 1024; // 512 KB
 const MAX_BUFFERED_AMOUNT: usize = 1024 * 1024; // 1 MB
 
@@ -131,7 +133,8 @@ async fn create_responder() -> anyhow::Result<RTCPeerConnection> {
                                 (total_bytes_received * 8) as f64 / elapsed.unwrap().as_secs_f64();
 
                             println!(
-                                "Throughput is about {:.03} Mbps",
+                                "{} Throughput: {:.03} Mbps",
+                                Utc::now().format("%Y/%m/%d %H:%M:%S"),
                                 bps / (1024 * 1024) as f64
                             );
                             tokio::time::sleep(Duration::from_secs(1)).await;
